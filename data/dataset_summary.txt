@@ -1,0 +1,24 @@
+=== Google Landmarks Dataset Summary ===
+
+Total images: 4,132,914
+Unique landmarks: 203,094
+
+Columns: ['id', 'url', 'landmark_id']
+
+=== Class Distribution ===
+Min per class: 1
+Max per class: 10247
+Mean per class: 20.35
+
+Top 10 classes:
+landmark_id
+138982    10247
+62798      4333
+177870     3327
+176528     3243
+192931     2627
+126637     2589
+83144      2351
+171772     2268
+20409      2248
+151942     1727

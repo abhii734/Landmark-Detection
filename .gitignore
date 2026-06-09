@@ -1,0 +1,27 @@
+# Virtual environment
+venv_gpu/
+venv/
+.venv/
+env/
+ENV/
+
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large files and datasets
+images_000/
+images/
+.download_checkpoint.txt
+
+# Model checkpoints & training outputs
+checkpoints/
+outputs/
+logs/
+
+# IDE files
+.vscode/
+.idea/
+.claude/
+.ipynb_checkpoints/
