@@ -1,10 +1,10 @@
 """
 Landmark Detection Training Script
 ===================================
-Two modes: SYNTHETIC (matches video) or REAL_IMAGE (uses your data)
+Two modes: SYNTHETIC (pattern-based) or REAL_IMAGE (uses your data)
 
 Usage:
-    python train.py                      # Synthetic mode (like video)
+    python train.py                      # Synthetic mode
     python train.py --mode synthetic     # Explicit synthetic mode
     python train.py --mode real         # Use downloaded images
     python train.py --epochs 10         # Custom epochs
@@ -28,16 +28,16 @@ import json
 from sklearn.model_selection import train_test_split
 
 # ============================================================
-# CONFIG (defaults match video tutorial)
+# CONFIG (default parameters)
 # ============================================================
-BATCH_SIZE = 64           # Video default (T4 GPU)
-LEARNING_RATE = 0.001     # Video default
-NUM_EPOCHS = 5            # Video default
-NUM_CLASSES = 500         # Video: 500 landmark classes
+BATCH_SIZE = 64           # Default for T4 GPU
+LEARNING_RATE = 0.001     # Default
+NUM_EPOCHS = 5            # Default
+NUM_CLASSES = 500         # Default: 500 landmark classes
 EARLY_STOP_PATIENCE = 5
 
 # Synthetic mode config
-SYNTHETIC_IMAGES_PER_CLASS = 50  # Video: 50 images per class
+SYNTHETIC_IMAGES_PER_CLASS = 50  # Default: 50 images per class
 
 # Paths
 SCRIPT_DIR = Path(__file__).parent
@@ -54,7 +54,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Landmark Detection Training")
     parser.add_argument("--mode", type=str, default="synthetic",
                         choices=["synthetic", "real"],
-                        help="Training mode: synthetic (video) or real (your images)")
+                        help="Training mode: synthetic (pattern-based) or real (your images)")
     parser.add_argument("--epochs", type=int, default=NUM_EPOCHS,
                         help=f"Number of epochs (default: {NUM_EPOCHS})")
     parser.add_argument("--batch", type=int, default=BATCH_SIZE,
@@ -93,7 +93,7 @@ if torch.cuda.is_available():
 class SyntheticDataset(Dataset):
     """
     Synthetic dataset - PROCRUSTEAN patterns for each landmark.
-    This is what the video tutorial uses to demo training without real images.
+    This is used to demo training without requiring real images to be downloaded.
     Each class gets a unique 8x8 grid pattern in the image.
     """
     def __init__(self, df):
@@ -176,7 +176,7 @@ class RealImageDataset(Dataset):
 # LOAD DATA
 # ============================================================
 def load_data_for_synthetic():
-    """Create synthetic dataset like in the video - simple version."""
+    """Create synthetic dataset - simple version."""
     print("\n[MODE: SYNTHETIC] Creating synthetic dataset...")
 
     # Create balanced dataset: classes with enough samples
